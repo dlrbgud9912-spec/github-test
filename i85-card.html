@@ -1,0 +1,525 @@
+<title>i85 보상판매 현장카드</title>
+
+<style>
+  :root {
+    --ground:      #F1F4F3;
+    --surface:     #FFFFFF;
+    --surface-alt: #E7ECEA;
+    --field:       #102A27;
+    --field-ink:   #E6EEEB;
+    --ink:         #13201E;
+    --ink-soft:    #4C5F5B;
+    --ink-faint:   #8A9B97;
+    --line:        #D5DDDA;
+    --line-soft:   #E4EAE8;
+    --accent:      #DD4E18;
+    --accent-ink:  #FFFFFF;
+    --accent-wash: #FBEAE2;
+
+    --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+            "Noto Sans KR", "Malgun Gothic", "맑은 고딕", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas,
+            "D2Coding", monospace;
+
+    --page: 34rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0B1514;
+      --surface:     #131F1D;
+      --surface-alt: #1A2826;
+      --field:       #071614;
+      --field-ink:   #DDE8E5;
+      --ink:         #E7EDEB;
+      --ink-soft:    #9BADA9;
+      --ink-faint:   #6B7D79;
+      --line:        #24332F;
+      --line-soft:   #1C2A27;
+      --accent:      #FF6A33;
+      --accent-ink:  #1A0B04;
+      --accent-wash: #2A1710;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0B1514;
+    --surface:     #131F1D;
+    --surface-alt: #1A2826;
+    --field:       #071614;
+    --field-ink:   #DDE8E5;
+    --ink:         #E7EDEB;
+    --ink-soft:    #9BADA9;
+    --ink-faint:   #6B7D79;
+    --line:        #24332F;
+    --line-soft:   #1C2A27;
+    --accent:      #FF6A33;
+    --accent-ink:  #1A0B04;
+    --accent-wash: #2A1710;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 5.5rem;
+  }
+
+  .wrap {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+
+  /* ---- 눈금자 구분선: 측량 스타디아 눈금 ---- */
+  .tick {
+    height: 11px;
+    margin: 2.5rem 0;
+    background-image:
+      repeating-linear-gradient(to right, var(--ink-faint) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px 8px);
+    background-size: 100% 100%, 100% 55%;
+    background-repeat: repeat-x;
+    background-position: left top, left top;
+    opacity: .7;
+  }
+
+  .eyebrow {
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+  }
+
+  h1, h2, h3 { text-wrap: balance; }
+
+  /* ---------- 상단 캠페인 ---------- */
+  .hero {
+    background: var(--field);
+    color: var(--field-ink);
+    padding: 2.25rem 0 2rem;
+  }
+  .hero .wrap { display: flex; flex-direction: column; gap: 1.125rem; }
+
+  .deadline {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    align-self: flex-start;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: var(--mono);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: .3rem .625rem;
+  }
+  .deadline .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor;
+  }
+
+  .model {
+    font-size: clamp(2.75rem, 15vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -.045em;
+    line-height: .95;
+    margin: 0;
+  }
+  .model small {
+    display: block;
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    line-height: 1.5;
+    margin-top: .625rem;
+    color: var(--field-ink);
+    opacity: .78;
+  }
+
+  .price {
+    border-top: 1px solid rgba(255,255,255,.16);
+    padding-top: 1.125rem;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+  }
+  .price .num {
+    font-family: var(--mono);
+    font-size: 2.125rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .price .unit { font-size: 1rem; font-weight: 600; }
+  .price .vat  { font-size: .8125rem; opacity: .7; }
+  .price .swap {
+    width: 100%;
+    font-size: .875rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ---------- 계측값 카드 ---------- */
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .spec {
+    background: var(--surface);
+    padding: 1.125rem 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  .spec .val {
+    font-family: var(--mono);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .spec .val i { font-style: normal; font-size: 1rem; color: var(--ink-soft); }
+  .spec .lab {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: var(--ink);
+  }
+  .spec .sub {
+    font-size: .8125rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- 본문 섹션 ---------- */
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin: 0 0 .875rem;
+  }
+  .lede { color: var(--ink-soft); font-size: .9375rem; margin: 0 0 1.25rem; }
+
+  .points { list-style: none; padding: 0; margin: 0; display: grid; gap: .875rem; }
+  .points li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .75rem;
+    align-items: start;
+    font-size: .9375rem;
+  }
+  .points li::before {
+    content: "";
+    width: 3px;
+    height: 1.15em;
+    margin-top: .28em;
+    background: var(--accent);
+  }
+  .points b { font-weight: 700; }
+  .points span { display: block; color: var(--ink-soft); font-size: .875rem; }
+
+  /* ---------- 영상 ---------- */
+  .films { display: grid; grid-template-columns: repeat(3, 1fr); gap: .625rem; }
+  .film {
+    aspect-ratio: 9 / 16;
+    background: var(--surface-alt);
+    border: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: .25rem;
+    padding: .625rem .5rem;
+    text-decoration: none;
+    color: inherit;
+  }
+  .film .tag {
+    font-family: var(--mono);
+    font-size: .625rem;
+    letter-spacing: .1em;
+    color: var(--ink-faint);
+  }
+  .film .name { font-size: .8125rem; font-weight: 700; line-height: 1.35; }
+  .film .len { font-family: var(--mono); font-size: .6875rem; color: var(--ink-soft); }
+
+  /* ---------- 표 ---------- */
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+  th, td {
+    text-align: left;
+    padding: .6875rem .5rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  th {
+    font-size: .6875rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-family: var(--mono);
+    color: var(--ink-faint);
+    font-weight: 700;
+    border-bottom-color: var(--line);
+  }
+  td.n {
+    text-align: right;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .kit { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .kit li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: .9375rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .kit li span { color: var(--ink-faint); font-family: var(--mono); font-size: .8125rem; }
+
+  /* ---------- 명함 ---------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 1.5rem 1.25rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .card .who { display: flex; align-items: baseline; gap: .625rem; flex-wrap: wrap; }
+  .card .nm { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; }
+  .card .rl { font-size: .875rem; color: var(--ink-soft); font-weight: 600; }
+  .card .co { font-size: .9375rem; font-weight: 700; color: var(--accent); }
+  .card dl { margin: 0; display: grid; grid-template-columns: 4.5rem 1fr; gap: .5rem .75rem; font-size: .875rem; }
+  .card dt { font-family: var(--mono); font-size: .75rem; color: var(--ink-faint); letter-spacing: .04em; }
+  .card dd { margin: 0; }
+  .card dd a { color: inherit; }
+
+  /* ---------- 버튼 ---------- */
+  .bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: .625rem 1.25rem calc(.625rem + env(safe-area-inset-bottom));
+    display: flex;
+    gap: .5rem;
+    z-index: 20;
+  }
+  .bar .inner { max-width: var(--page); margin: 0 auto; width: 100%; display: flex; gap: .5rem; }
+  .btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .375rem;
+    padding: .875rem .75rem;
+    font-family: var(--sans);
+    font-size: .9375rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+    flex: 1.6;
+  }
+  .btn:focus-visible, .film:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- 편집 안내 ---------- */
+  .todo {
+    border: 1px dashed var(--accent);
+    background: var(--accent-wash);
+    padding: 1.125rem 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .todo h2 { font-size: 1rem; margin-bottom: .5rem; }
+  .todo ol { margin: 0; padding-left: 1.125rem; font-size: .875rem; line-height: 1.85; }
+  .todo code {
+    font-family: var(--mono);
+    font-size: .8125rem;
+    background: var(--surface);
+    padding: .05em .35em;
+    border: 1px solid var(--line);
+  }
+
+  footer { color: var(--ink-faint); font-size: .75rem; padding-bottom: 2rem; }
+
+  @media (max-width: 24rem) {
+    .specs { grid-template-columns: 1fr; }
+  }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="deadline"><span class="dot"></span>보상판매 O월 O일 마감 · 초도 O대</span>
+    <h1 class="model">i85
+      <small>CHCNAV 최신보드 1892채널 GNSS 수신기<br>쓰시던 장비 반납하고 바꾸세요.</small>
+    </h1>
+    <div class="price">
+      <span class="num">400</span><span class="unit">만원</span>
+      <span class="vat">부가세 별도 · 풀세트</span>
+      <span class="swap">＋ 구장비 보상 최소 OO만원 보장</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="tick" role="presentation"></div>
+
+  <section aria-label="핵심 성능">
+    <p class="eyebrow">실측 기준</p>
+    <h2>현장에서 시간 안 까먹습니다</h2>
+    <div class="specs">
+      <div class="spec">
+        <span class="val">1892<i> ch</i></span>
+        <span class="lab">CHCNAV 최신보드</span>
+        <span class="sub">가로수 아래, 건물 바로 옆 음영지역에서도 픽스가 잡힙니다.</span>
+      </div>
+      <div class="spec">
+        <span class="val">60<i>°</i></span>
+        <span class="lab">IMU 경사보정</span>
+        <span class="sub">폴 기울여서 그냥 찍으면 끝. 잘 안 풀리고 캘리브레이션도 빠릅니다.</span>
+      </div>
+      <div class="spec">
+        <span class="val">150<i>m</i></span>
+        <span class="lab">레이저 거리측정</span>
+        <span class="sub">사유지 안쪽, 하천 건너편. 못 들어가는 지점을 그 자리에서.</span>
+      </div>
+      <div class="spec">
+        <span class="val">0<i>원</i></span>
+        <span class="lab">업데이트 비용</span>
+        <span class="sub">LandStar 프로그램과 펌웨어 모두 평생 무상 업데이트.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="tick" role="presentation"></div>
+
+  <section aria-label="현장 영상">
+    <p class="eyebrow">무편집 · 국내 현장</p>
+    <h2>말보다 영상이 빠릅니다</h2>
+    <p class="lede">전부 실제 현장에서 찍은 것입니다. 자막만 보셔도 됩니다.</p>
+    <div class="films">
+      <a class="film" href="#">
+        <span class="tag">IMU</span>
+        <span class="name">폴 60도 기울여 찍기</span>
+        <span class="len">0:30</span>
+      </a>
+      <a class="film" href="#">
+        <span class="tag">FIX</span>
+        <span class="name">나무 밑 픽스 시간</span>
+        <span class="len">1:20</span>
+      </a>
+      <a class="film" href="#">
+        <span class="tag">LASER</span>
+        <span class="name">하천 건너편 측정</span>
+        <span class="len">0:30</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="tick" role="presentation"></div>
+
+  <section aria-label="보상판매 조건">
+    <p class="eyebrow">보상판매</p>
+    <h2>쓰시던 장비, 이만큼 쳐드립니다</h2>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th scope="col">반납 장비</th><th scope="col">상태</th><th scope="col" style="text-align:right">보상가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>[모델군 A]</td><td>작동 가능</td><td class="n">OO만원</td></tr>
+          <tr><td>[모델군 B]</td><td>작동 가능</td><td class="n">OO만원</td></tr>
+          <tr><td>그 외 GNSS 수신기</td><td>상태 무관</td><td class="n">최소 OO만원</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="points" style="margin-top:1.25rem">
+      <li><b>기존 장비 택배 회수 — 비용 당사 부담</b><span>포장만 해두시면 기사님 댁·현장으로 방문합니다.</span></li>
+      <li><b>초기 세팅 · 좌표계 설정 1:1 지원</b><span>받으신 날 바로 현장 투입 가능하게 맞춰드립니다.</span></li>
+      <li><b>카드 무이자 O개월</b><span>일시불 부담 없이 진행하실 수 있습니다.</span></li>
+    </ul>
+  </section>
+
+  <div class="tick" role="presentation"></div>
+
+  <section aria-label="풀세트 구성">
+    <p class="eyebrow">400만원에 들어가는 것</p>
+    <h2>풀세트 구성</h2>
+    <ul class="kit">
+      <li>i85 본체 <span>1</span></li>
+      <li>컨트롤러 <span>1</span></li>
+      <li>측량 폴 · 삼각대 <span>1</span></li>
+      <li>배터리 <span>O</span></li>
+      <li>하드케이스 <span>1</span></li>
+      <li>LandStar 정품 <span>평생</span></li>
+    </ul>
+  </section>
+
+  <div class="tick" role="presentation"></div>
+
+  <section aria-label="담당자">
+    <p class="eyebrow">담당</p>
+    <h2>궁금하신 건 바로 전화 주세요</h2>
+    <div class="card">
+      <div>
+        <div class="who">
+          <span class="nm">[이름]</span>
+          <span class="rl">[직함]</span>
+        </div>
+        <div class="co">[회사명]</div>
+      </div>
+      <dl>
+        <dt>휴대전화</dt><dd><a href="tel:01000000000">010-0000-0000</a></dd>
+        <dt>사무실</dt><dd><a href="tel:0200000000">02-000-0000</a></dd>
+        <dt>카카오톡</dt><dd>[카톡 ID 또는 채널]</dd>
+        <dt>취급</dt><dd>GNSS 수신기 · 측량기 · 소모품 · A/S</dd>
+        <dt>경력</dt><dd>측량장비 O년 · 거래 현장 O곳</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="tick" role="presentation"></div>
+
+  <section class="todo" aria-label="발송 전 확인">
+    <h2>발송 전 채울 것 — 이 상자는 지우고 보내세요</h2>
+    <ol>
+      <li>보상가 표의 <code>OO만원</code> — 정액표가 어려우면 최소 보장가만이라도</li>
+      <li>마감일과 초도 물량 <code>O</code> — 실제로 지킬 날짜로</li>
+      <li>풀세트 수량 <code>O</code> 및 실제 구성품</li>
+      <li>영상 3칸의 링크 — <code>href="#"</code> 를 유튜브 주소로</li>
+      <li>이름 · 직함 · 회사명 · 전화번호 · 카톡</li>
+      <li>카드 무이자 개월 수 (안 되면 그 줄 삭제)</li>
+    </ol>
+  </section>
+
+  <footer>
+    [회사명] · 사업자등록번호 000-00-00000 · 광고 수신거부 0808-000-000
+  </footer>
+
+</main>
+
+<nav class="bar" aria-label="연락">
+  <div class="inner">
+    <a class="btn primary" href="tel:01000000000">전화 상담</a>
+    <a class="btn" href="sms:01000000000">문자</a>
+    <a class="btn" href="#">카톡</a>
+  </div>
+</nav>
