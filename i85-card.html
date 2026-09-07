@@ -396,7 +396,7 @@
 <header class="hero">
   <div class="wrap">
     <!-- 마감일만 아래 date="" 에 고치면 나머지는 자동 계산됩니다 -->
-    <span class="deadline" id="deadline" data-date="2026-09-08">
+    <span class="deadline" id="deadline" data-date="2026-09-30">
       <span class="dot"></span>
       <span id="deadlineText">보상판매 마감</span>
     </span>
@@ -481,7 +481,8 @@
         <tbody>
           <tr><td>[모델군 A]</td><td>작동 가능</td><td class="n">OO만원</td></tr>
           <tr><td>[모델군 B]</td><td>작동 가능</td><td class="n">OO만원</td></tr>
-          <tr><td>그 외 GNSS 수신기</td><td>상태 무관</td><td class="n">최소 OO만원</td></tr>
+          <tr><td>그 외 GNSS 수신기</td><td>정상 작동</td><td class="n">최소 OO만원</td></tr>
+          <tr><td>고장 · 침수 장비</td><td>상태 확인 필요</td><td class="n">별도 상담</td></tr>
         </tbody>
       </table>
     </div>
@@ -537,9 +538,13 @@
   <section class="todo" aria-label="발송 전 확인">
     <h2>발송 전 채울 것 — 이 상자는 지우고 보내세요</h2>
     <ol>
-      <li>보상가 표 — 모델별 정액표로 확정(8/14). 주요 구형 모델명과 <code>OO만원</code>만 채우면 됨</li>
-      <li>마감일 — <b>9월 8일(화) 확정 완료.</b> 바꿀 일이 생기면 <code>data-date</code>만 수정
+      <li>보상가 표 — 모델별 정액표로 확정(8/14). 주요 구형 모델명과 <code>OO만원</code>만 채우면 됨.
+          <b>고장·침수는 정액 대상에서 빼고 "별도 상담"으로 분리했습니다</b> — "상태 무관"으로 걸어두고 나중에 거절하면 기만광고가 됩니다</li>
+      <li>마감 — <b>9월 한 달 행사(~9/30)</b>로 변경 반영 (8/31 확정 발송본 v5 기준).
+          바꿀 일이 생기면 <code>data-date</code>만 수정
           (D-day 자동 계산, 마감 다음날 자동으로 마감 안내 전환)</li>
+      <li>실서비스 페이지는 <code>dksystems-support.kr/i85</code> —
+          이 아티팩트는 시안·소스 보관용입니다</li>
       <li>초도 물량 <code>O</code>대 — 실제 확보 수량</li>
       <li>풀세트 수량 <code>O</code> 및 실제 구성품</li>
       <li>영상 3칸의 링크 — <code>href="#"</code> 를 유튜브 주소로</li>
